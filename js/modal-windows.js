@@ -54,6 +54,6 @@ function setSrcAltAttributes(src, alt) {
 
 function onCloseModal() {
     refs.lightbox.classList.remove('is-open');
-    refs.image.removeAttribute("src");
-    refs.image.removeAttribute("alt");
+    refs.lightboxImage.removeAttribute("src");
+    refs.lightboxImage.removeAttribute("alt");
 }
