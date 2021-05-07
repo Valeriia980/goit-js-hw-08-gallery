@@ -1,13 +1,14 @@
 import galleryImages from './gallery-items.js';
 import refs from './refs.js';
 import makeGalleryCardMarkup from './make-gallery-cards-markup.js';
-
+const lightboxNew = document.querySelector(".lightbox")
 const cards = makeGalleryCardMarkup(galleryImages);
-
+const lightboxOverlay = document.querySelector(".lightbox__overlay")
+const lightImg = document.querySelector(".lightbox__image");
 refs.galleryContainer.insertAdjacentHTML('afterbegin', cards);
 
 refs.galleryContainer.addEventListener('click', onImageClick);
-
+lightboxOverlay.addEventListener("click", onCloseModal);
 refs.closeBtn.addEventListener('click', onCloseModal);
 
 const arrayOfImageLinks = makeArrayOfImageLinks(galleryImages);
@@ -45,6 +46,7 @@ function onOpenModal(url, description) {
     position = arrayOfImageLinks.indexOf(url);
 
     return position;
+   
 }
 
 function setSrcAltAttributes(src, alt) {
@@ -57,3 +59,30 @@ function onCloseModal() {
     refs.lightboxImage.removeAttribute("src");
     refs.lightboxImage.removeAttribute("alt");
 }
+const galleryImg = document.querySelectorAll('.gallery__image');
+const newSrc = [];
+const modalImg = document.querySelector('.lightbox__image');
+galleryImg.forEach(e => {
+  newSrc.push(e.getAttribute('data-source'));
+});
+
+
+document.addEventListener('keydown', e => {
+  let newIndex = newSrc.indexOf(modalImg.src);
+  
+    if (newIndex < 0) {
+    return;
+  }
+  if (e.code === 'ArrowLeft') {
+    newIndex -= 1;
+    if (newIndex === -1) {
+      newIndex = newSrc.length - 1;
+    }
+  } else if (e.code === 'ArrowRight') {
+    newIndex += 1;
+    if (newIndex === newSrc.length) {
+      newIndex = 0;
+    }
+  }
+  modalImg.src = newSrc[newIndex];
+});
